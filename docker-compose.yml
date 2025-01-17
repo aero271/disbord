@@ -1,0 +1,26 @@
+services:
+  app:
+    build:
+      context: .
+    ports:
+      - "3000:3000"
+    environment:
+      DBUSER: ${DBUSER}
+      DBPASSWORD: ${DBPASSWORD}
+      JWT_SECRET: ${JWT_SECRET}
+      DB_HOST: ${DB_HOST}
+  db:
+    image: postgres:15
+    environment:
+      POSTGRES_USER: ${DBUSER} 
+      POSTGRES_PASSWORD: ${DBPASSWORD}
+      POSTGRES_DB: "safe_call"
+    ports:
+      - "4500:5432"
+    volumes:
+      - db_data:/var/lib/postgresql/data 
+      - ./database:/docker-entrypoint-initdb.d 
+  
+
+volumes:
+  db_data:
